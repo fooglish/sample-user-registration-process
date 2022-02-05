@@ -9,5 +9,5 @@ Auth-service - вспомогательный сервис с базой дан�
 username: admin  
 password: admin
 
-Схема процесса: sample-user-registration-process\user-registration-process\src\main\resources\process.bpmn
+Схема процесса: user-registration-process\src\main\resources\process.bpmn
 

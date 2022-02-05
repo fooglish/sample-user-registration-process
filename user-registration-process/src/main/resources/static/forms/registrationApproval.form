@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 2,
+  "components": [
+    {
+      "label": "Имя пользователя",
+      "type": "textfield",
+      "id": "Field_0o0lmq4",
+      "key": "username"
+    },
+    {
+      "label": "Email",
+      "type": "textfield",
+      "id": "Field_1lln46f",
+      "key": "email"
+    },
+    {
+      "label": "Номер телефона",
+      "type": "textfield",
+      "id": "Field_07a3joy",
+      "key": "phone"
+    },
+    {
+      "label": "Подтвердить регистрацию пользователя",
+      "type": "checkbox",
+      "id": "Field_12sp2dq",
+      "key": "decision"
+    }
+  ],
+  "type": "default",
+  "id": "registrationApprovalForm"
+}

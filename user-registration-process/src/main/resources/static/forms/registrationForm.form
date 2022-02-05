@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 2,
+  "components": [
+    {
+      "label": "Имя пользователя",
+      "type": "textfield",
+      "id": "Field_1i6bm3d",
+      "key": "username",
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "label": "Пароль",
+      "type": "textfield",
+      "id": "Field_1wrsybr",
+      "key": "password",
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "label": "Email",
+      "type": "textfield",
+      "id": "Field_1aky8ob",
+      "key": "email",
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "label": "Номер телефона",
+      "type": "textfield",
+      "id": "Field_09gtfpa",
+      "key": "phone",
+      "validate": {
+        "required": true
+      }
+    }
+  ],
+  "type": "default",
+  "id": "userRegistrationForm",
+  "executionPlatform": "Camunda Platform",
+  "executionPlatformVersion": "7.16"
+}

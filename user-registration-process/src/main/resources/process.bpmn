@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_11f1asa" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.12.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.15.0">
+  <bpmn:process id="registrationProcess" name="Регистрация пользователя" isExecutable="true">
+    <bpmn:startEvent id="start-registration">
+      <bpmn:outgoing>Flow_06lvve0</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:userTask id="registration-approval" name="Подтвердить / Отклонить регистрацию" camunda:formKey="camunda-forms:/forms/registrationApproval.form">
+      <bpmn:incoming>Flow_0hly0sl</bpmn:incoming>
+      <bpmn:outgoing>Flow_03cixpp</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="send-registration-form" name="Зарегистрироваться" camunda:formKey="camunda-forms:/forms/registrationForm.form" camunda:assignee="admin">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="username" type="string" />
+          <camunda:formField id="phone" type="long" />
+          <camunda:formField id="email" type="string" />
+          <camunda:formField id="password" type="string" />
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_06lvve0</bpmn:incoming>
+      <bpmn:outgoing>Flow_0q6h1i2</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="Flow_06lvve0" sourceRef="start-registration" targetRef="send-registration-form" />
+    <bpmn:sequenceFlow id="Flow_03cixpp" sourceRef="registration-approval" targetRef="notify" />
+    <bpmn:serviceTask id="notify" name="Отправка уведомления" camunda:delegateExpression="${notificationTask}">
+      <bpmn:incoming>Flow_03cixpp</bpmn:incoming>
+      <bpmn:outgoing>Flow_1y4tqiw</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="Event_0no8luf">
+      <bpmn:incoming>Flow_1y4tqiw</bpmn:incoming>
+      <bpmn:incoming>Flow_00s43vs</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1y4tqiw" sourceRef="notify" targetRef="Event_0no8luf" />
+    <bpmn:sequenceFlow id="Flow_0q6h1i2" sourceRef="send-registration-form" targetRef="Gateway_18ms2vd" />
+    <bpmn:parallelGateway id="Gateway_18ms2vd">
+      <bpmn:incoming>Flow_0q6h1i2</bpmn:incoming>
+      <bpmn:outgoing>Flow_0hly0sl</bpmn:outgoing>
+      <bpmn:outgoing>Flow_00m6e95</bpmn:outgoing>
+    </bpmn:parallelGateway>
+    <bpmn:sequenceFlow id="Flow_0hly0sl" sourceRef="Gateway_18ms2vd" targetRef="registration-approval" />
+    <bpmn:sequenceFlow id="Flow_00m6e95" sourceRef="Gateway_18ms2vd" targetRef="auth" />
+    <bpmn:serviceTask id="auth" name="Запись информации о пользователе в БД" camunda:delegateExpression="${registrationTask}">
+      <bpmn:incoming>Flow_00m6e95</bpmn:incoming>
+      <bpmn:outgoing>Flow_00s43vs</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_00s43vs" sourceRef="auth" targetRef="Event_0no8luf" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="registrationProcess">
+      <bpmndi:BPMNEdge id="Flow_00m6e95_di" bpmnElement="Flow_00m6e95">
+        <di:waypoint x="470" y="142" />
+        <di:waypoint x="470" y="230" />
+        <di:waypoint x="590" y="230" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0hly0sl_di" bpmnElement="Flow_0hly0sl">
+        <di:waypoint x="495" y="117" />
+        <di:waypoint x="590" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0q6h1i2_di" bpmnElement="Flow_0q6h1i2">
+        <di:waypoint x="380" y="117" />
+        <di:waypoint x="445" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1y4tqiw_di" bpmnElement="Flow_1y4tqiw">
+        <di:waypoint x="850" y="117" />
+        <di:waypoint x="912" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_03cixpp_di" bpmnElement="Flow_03cixpp">
+        <di:waypoint x="690" y="117" />
+        <di:waypoint x="750" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_06lvve0_di" bpmnElement="Flow_06lvve0">
+        <di:waypoint x="215" y="117" />
+        <di:waypoint x="280" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_00s43vs_di" bpmnElement="Flow_00s43vs">
+        <di:waypoint x="690" y="230" />
+        <di:waypoint x="930" y="230" />
+        <di:waypoint x="930" y="135" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="start-registration">
+        <dc:Bounds x="179" y="99" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="160" y="142" width="75" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0gxua2z_di" bpmnElement="registration-approval">
+        <dc:Bounds x="590" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_03b7drb_di" bpmnElement="send-registration-form">
+        <dc:Bounds x="280" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_02872uf_di" bpmnElement="notify">
+        <dc:Bounds x="750" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0no8luf_di" bpmnElement="Event_0no8luf">
+        <dc:Bounds x="912" y="99" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1qu9mhe_di" bpmnElement="Gateway_18ms2vd">
+        <dc:Bounds x="445" y="92" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1x4y7vt_di" bpmnElement="auth">
+        <dc:Bounds x="590" y="190" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
